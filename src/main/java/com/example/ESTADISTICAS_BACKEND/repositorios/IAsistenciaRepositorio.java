@@ -1,6 +1,7 @@
 package com.example.ESTADISTICAS_BACKEND.repositorios;
 
 import com.example.ESTADISTICAS_BACKEND.modelos.Asistencia;
+import com.example.ESTADISTICAS_BACKEND.modelos.dtos.InasistenciaMensualDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query; // Importar
 import org.springframework.data.repository.query.Param; // Importar
@@ -30,4 +31,18 @@ public interface IAsistenciaRepositorio extends JpaRepository<Asistencia, Intege
             @Param("estudianteId") Integer estudianteId,
             @Param("fechaInicio") LocalDate fechaInicio,
             @Param("fechaFin") LocalDate fechaFin);
+
+    @Query("""
+        SELECT new com.example.ESTADISTICAS_BACKEND.modelos.dtos.InasistenciaMensualDTO(
+            a.grupo.id,
+            MONTH(a.fecha),
+            (SUM(CASE WHEN a.estado = com.example.ESTADISTICAS_BACKEND.ayudas.EstadosAsistencia.AUSENTE THEN 1 ELSE 0 END) * 100.0 / COUNT(a))
+        )
+        FROM Asistencia a
+        WHERE a.grupo.id = :idGrupo
+        GROUP BY a.grupo.id, MONTH(a.fecha)
+        ORDER BY MONTH(a.fecha)
+    """)
+    List<InasistenciaMensualDTO> calcularTasaInasistenciaMensual(@Param("idGrupo") Integer idGrupo);
+
 }
