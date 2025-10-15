@@ -10,12 +10,12 @@ public class ResumenAsistenciaDTO {
     public ResumenAsistenciaDTO() {
     }
 
-    public ResumenAsistenciaDTO(long ausentes, String grupoNombre, Integer grupoId, long presentes, long tardanzas) {
-        this.ausentes = ausentes;
-        this.grupoNombre = grupoNombre;
+    public ResumenAsistenciaDTO(Integer grupoId, String grupoNombre, long total, long presentes, long ausentes) {
         this.grupoId = grupoId;
+        this.grupoNombre = grupoNombre;
         this.presentes = presentes;
-        this.tardanzas = tardanzas;
+        this.ausentes = ausentes;
+        this.tardanzas = total;
     }
 
     public long getAusentes() {

@@ -20,7 +20,7 @@ public class ResumenAsistenciaServicio {
             // buscar las asistencias asociadas a un grupo
             List<Asistencia> asistencias = asistenciaRepositorio.findByGrupoId(grupoId);
 
-            if (asistencias.isEmpty() || asistencias.getFirst().getGrupo() == null) {
+            if (asistencias.isEmpty()) {
                 throw new Exception(
                         MensajesError.ERROR_GRUPO_NO_ENCONTRADO.getDescripcion() +
                                 ": No se encontró un grupo con el ID " + grupoId
